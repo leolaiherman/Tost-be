@@ -10,14 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String
-  content   String?  @db.Text
-}
-
 model User {
   userID       Int           @id @default(autoincrement())
   userName     String        @db.Text
@@ -50,18 +42,37 @@ model Admin {
 }
 
 model Table {
-  tableID   Int @id @default(autoincrement())
-  tableSize Int @db.Integer
+  tableID       Int        @id @default(autoincrement())
+  tableSize     Int        @db.Integer
+  tableQuantity Int        @db.Integer
+  UserOrder     UserOrder?
+}
+
+model Payment {
+  paymentID     Int        @id @default(autoincrement())
+  paymentValue  Int        @db.Integer
+  paymentStatus Int        @db.Integer
+  UserOrder     UserOrder?
 }
 
 model UserOrder {
-  order        OrderHistory @relation(fields: [oID], references: [orderID])
-  user         User         @relation(fields: [uID], references: [userID])
-  menu         Menu         @relation(fields: [mID], references: [menuID])
-  oID          Int          @id
-  uID          Int          @unique
-  mID          Int          @unique
-  menuQuantity Int          @db.Integer
-  orderPax     Int          @db.Integer
-  totalPayment Int          @db.Integer
+  order                OrderHistory @relation(fields: [oID], references: [orderID])
+  user                 User         @relation(fields: [uID], references: [userID])
+  menu                 Menu         @relation(fields: [mID], references: [menuID])
+  table                Table        @relation(fields: [tID], references: [tableID])
+  payment              Payment      @relation(fields: [pID], references: [paymentID])
+  oID                  Int          @id
+  uID                  Int          @unique
+  mID                  Int          @unique
+  tID                  Int          @unique
+  pID                  Int          @unique
+  menuQuantity         Int          @db.Integer
+  orderPax             Int          @db.Integer
+  orderPrice           Int          @db.Integer
+  orderDineInStatus    Boolean      @db.Boolean
+  orderDate            DateTime     @db.Date
+  orderTime            DateTime     @db.Time
+  orderNotes           String?      @db.Text
+  orderCreateOrderDate DateTime     @db.Date
+  orderSystemStatus    Boolean      @db.Boolean
 }
