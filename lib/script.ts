@@ -14,7 +14,7 @@ async function main() {
             userName: "John",
             userEmail: "John@example.com",
             userPassword: "password",
-            role: "ADMIN"
+            userPNumber: "123456789"
         }
     })
 

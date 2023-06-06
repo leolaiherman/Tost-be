@@ -15,7 +15,7 @@ model User {
   userName     String @db.Text
   userEmail    String @unique @db.Text
   userPassword String @db.Text
-  userPNumber  Int    @unique @db.Integer
+  userPNumber  String @db.Text
 
   role UserRole @default(USER)
 
