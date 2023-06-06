@@ -15,8 +15,11 @@ model User {
   userName     String        @db.Text
   userEmail    String        @unique @db.Text
   userPassword String        @db.Text
-  OrderHistory OrderHistory?
-  UserOrder    UserOrder?
+  
+  role UserRole @default(USER)
+
+  OrderHistory OrderHistory[]
+  UserOrder    UserOrder[]
 }
 
 model OrderHistory {
@@ -33,7 +36,7 @@ model Menu {
   menuName        String     @db.Text
   menuPrice       Int        @db.Integer
   menuDescription String?    @db.Text
-  UserOrder       UserOrder?
+  UserOrder       UserOrder[]
 }
 
 model Admin {
@@ -51,7 +54,7 @@ model Table {
 model Payment {
   paymentID     Int        @id @default(autoincrement())
   paymentValue  Int        @db.Integer
-  paymentStatus Int        @db.Integer
+  paymentStatus status @default(COMPLETED)
   UserOrder     UserOrder?
 }
 
@@ -73,6 +76,17 @@ model UserOrder {
   orderDate            DateTime     @db.Date
   orderTime            DateTime     @db.Time
   orderNotes           String?      @db.Text
-  orderCreateOrderDate DateTime     @db.Date
+  orderCreateOrderDate DateTime     @db.Date @default(now())
   orderSystemStatus    Boolean      @db.Boolean
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}
+
+enum status {
+  COMPLETED
+  CANCELLED
+  IN_PROGRESS
 }
