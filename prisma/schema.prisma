@@ -11,37 +11,23 @@ datasource db {
 }
 
 model User {
-  userID       Int           @id @default(autoincrement())
-  userName     String        @db.Text
-  userEmail    String        @unique @db.Text
-  userPassword String        @db.Text
-  
+  userID       Int    @id @default(autoincrement())
+  userName     String @db.Text
+  userEmail    String @unique @db.Text
+  userPassword String @db.Text
+  userPNumber  Int    @unique @db.Integer
+
   role UserRole @default(USER)
 
-  OrderHistory OrderHistory[]
-  UserOrder    UserOrder[]
-}
-
-model OrderHistory {
-  user      User        @relation(fields: [uID], references: [userID])
-  uID       Int         @unique
-  orderID   Int         @id @default(autoincrement())
-  userEmail String      @unique @db.Text
-  content   String?     @db.Text
   UserOrder UserOrder[]
 }
 
 model Menu {
-  menuID          Int        @id @default(autoincrement())
-  menuName        String     @db.Text
-  menuPrice       Int        @db.Integer
-  menuDescription String?    @db.Text
+  menuID          Int         @id @default(autoincrement())
+  menuName        String      @db.Text
+  menuPrice       Int         @db.Integer
+  menuDescription String?     @db.Text
   UserOrder       UserOrder[]
-}
-
-model Admin {
-  adminID       Int    @id @default(autoincrement())
-  adminPassword String @db.Text
 }
 
 model Table {
@@ -54,30 +40,29 @@ model Table {
 model Payment {
   paymentID     Int        @id @default(autoincrement())
   paymentValue  Int        @db.Integer
-  paymentStatus status @default(COMPLETED)
+  paymentStatus status     @default(COMPLETED)
   UserOrder     UserOrder?
 }
 
 model UserOrder {
-  order                OrderHistory @relation(fields: [oID], references: [orderID])
-  user                 User         @relation(fields: [uID], references: [userID])
-  menu                 Menu         @relation(fields: [mID], references: [menuID])
-  table                Table        @relation(fields: [tID], references: [tableID])
-  payment              Payment      @relation(fields: [pID], references: [paymentID])
-  oID                  Int          @id
-  uID                  Int          @unique
-  mID                  Int          @unique
-  tID                  Int          @unique
-  pID                  Int          @unique
-  menuQuantity         Int          @db.Integer
-  orderPax             Int          @db.Integer
-  orderPrice           Int          @db.Integer
-  orderDineInStatus    Boolean      @db.Boolean
-  orderDate            DateTime     @db.Date
-  orderTime            DateTime     @db.Time
-  orderNotes           String?      @db.Text
-  orderCreateOrderDate DateTime     @db.Date @default(now())
-  orderSystemStatus    Boolean      @db.Boolean
+  user                 User     @relation(fields: [uID], references: [userID])
+  menu                 Menu     @relation(fields: [mID], references: [menuID])
+  table                Table    @relation(fields: [tID], references: [tableID])
+  payment              Payment  @relation(fields: [pID], references: [paymentID])
+  oID                  Int      @id @default(autoincrement())
+  uID                  Int      @unique
+  mID                  Int
+  tID                  Int      @unique
+  pID                  Int      @unique
+  menuQuantity         Int      @db.Integer
+  orderPax             Int      @db.Integer
+  orderPrice           Int      @db.Integer
+  orderDineInStatus    status   @default(IN_PROGRESS)
+  orderDate            DateTime @db.Date
+  orderTime            DateTime @db.Time
+  orderNotes           String?  @db.Text
+  orderCreateOrderDate DateTime @default(now()) @db.Date
+  orderSystemStatus    status   @default(IN_PROGRESS)
 }
 
 enum UserRole {

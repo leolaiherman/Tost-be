@@ -1,5 +1,7 @@
 "use client";
 
+import { createUserAction } from '@/app/_actions';
+import {createUser} from '../../lib/users'
 import Button from "@/ui/Button";
 import Input from "@/ui/Input";
 import Link from "next/link";
@@ -16,10 +18,9 @@ export const RegisterForm = ({ value }: RegisterValue) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-
+  
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
     console.log("Register!");
   };
 
