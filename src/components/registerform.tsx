@@ -19,7 +19,6 @@ export const RegisterForm = ({ value }: RegisterValue) => {
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
     console.log("Register!");
   };
 
