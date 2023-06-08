@@ -11,11 +11,11 @@ datasource db {
 }
 
 model User {
-  userID       Int           @id @default(autoincrement())
-  userName     String        @db.Text
-  userEmail    String        @unique @db.Text
-  userPassword String        @db.Text
-  
+  userID       Int    @id @default(autoincrement())
+  userName     String @db.Text
+  userEmail    String @unique @db.Text
+  userPassword String @db.Text
+
   role UserRole @default(USER)
 
   OrderHistory OrderHistory[]
@@ -32,10 +32,10 @@ model OrderHistory {
 }
 
 model Menu {
-  menuID          Int        @id @default(autoincrement())
-  menuName        String     @db.Text
-  menuPrice       Int        @db.Integer
-  menuDescription String?    @db.Text
+  menuID          Int         @id @default(autoincrement())
+  menuName        String      @db.Text
+  menuPrice       Int         @db.Integer
+  menuDescription String?     @db.Text
   UserOrder       UserOrder[]
 }
 
@@ -54,7 +54,7 @@ model Table {
 model Payment {
   paymentID     Int        @id @default(autoincrement())
   paymentValue  Int        @db.Integer
-  paymentStatus status @default(COMPLETED)
+  paymentStatus status     @default(COMPLETED)
   UserOrder     UserOrder?
 }
 
@@ -76,7 +76,7 @@ model UserOrder {
   orderDate            DateTime     @db.Date
   orderTime            DateTime     @db.Time
   orderNotes           String?      @db.Text
-  orderCreateOrderDate DateTime     @db.Date @default(now())
+  orderCreateOrderDate DateTime     @default(now()) @db.Date
   orderSystemStatus    Boolean      @db.Boolean
 }
 
